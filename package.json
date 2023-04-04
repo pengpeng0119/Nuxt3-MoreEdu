@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "nuxt": "3.0.0"
+  },
+  "dependencies": {
+    "@css-render/vue3-ssr": "^0.15.11",
+    "naive-ui": "^2.34.2",
+    "nuxt-windicss": "^2.6.0"
+  },
+  "resolutions": {
+    "vite-plugin-windicss": "1.8.8"
+  },
+  "overrides": {
+    "nuxt-windicss": {
+      "vite-plugin-windicss": "1.8.8"
+    }
+  }
+}
