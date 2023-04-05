@@ -4,7 +4,8 @@
     footer-style="padding:0;"
   >
     <template #cover>
-      <img :src="item.cover" class="w-[100%] h-[150px]" />
+      <!-- <img :src="item.cover" class="w-[100%] h-[150px]" /> -->
+      <UiImage :src="item.cover" class="w-[100%] h-[150px]"></UiImage>
     </template>
     <div class="pt-2">
       <span class="font-bold w-full truncate font-semibold">{{

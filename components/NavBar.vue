@@ -13,7 +13,7 @@
         </UiMenuItem>
       </UiMenu>
 
-      <n-button circle class="ml-auto mr-3">
+      <n-button circle class="ml-auto mr-3" @click="openSearch">
         <template #icon>
           <n-icon><Search /></n-icon>
         </template>
@@ -30,6 +30,7 @@
     </div>
   </div>
   <div class="h-[80px] w-[100%]"></div>
+  <SearchBar ref="SearchBarRef"></SearchBar>
 </template>
 
 <script setup>
@@ -160,6 +161,10 @@ const menu = [
 ]
 function handelOpen(path) {
   navigateTo(path)
+}
+const SearchBarRef = ref(null)
+const openSearch = () => {
+  SearchBarRef.value.open()
 }
 </script>
 
