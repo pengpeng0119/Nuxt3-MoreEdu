@@ -62,7 +62,6 @@ const userOptions = [
   }
 ]
 const route = useRoute()
-console.log(route.path)
 const menu = [
   {
     name: '首页',

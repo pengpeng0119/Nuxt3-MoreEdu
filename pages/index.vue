@@ -12,6 +12,12 @@
           :title="item.title"
           :data="item.data"
         ></ListCard>
+        <ListCard
+          v-else-if="item.type == 'promotion'"
+          :title="item.title"
+          :data="item.data"
+          :type="item.listType"
+        ></ListCard>
       </template>
     </div>
   </div>
@@ -21,22 +27,19 @@
 import { Search } from '@vicons/ionicons5'
 import { NIcon } from 'naive-ui'
 import { throwError } from 'naive-ui/es/_utils'
-const { data, pending, error } = await useFetch('/index', {
-  key: 'IndexData',
-  headers: {
-    appid: 'bd9d01ecc75dbbaaefce'
-  },
-  transform: (res) => {
-    return res.data
-  },
-  baseURL: 'http://demonuxtapi.dishait.cn/pc',
-  initialCache: false,
-  lazy: true
-})
+const { pending, data, refresh, error } = await useIndexDataApi()
+
 // 服务端时直接报错
 if (process.server && error.value) {
   throwError(error.value?.data?.data)
 }
+useHead({
+  title: '首页',
+  meta: [
+    { name: 'description', content: '梦真编程首页描述' },
+    { name: 'keywords', content: '梦真编程关键词' }
+  ]
+})
 </script>
 
 <style scoped></style>
