@@ -16,7 +16,7 @@
       <Price :value="item.price"></Price>
       <Price :value="item.t_price" through class="ml-2"></Price>
     </div>
-    <!-- <template #footer v-if="item.group_id || item.flashsale_id">
+    <template #footer v-if="item.group_id || item.flashsale_id">
       <ClientOnly>
         <div
           class="bg-yellow-500 text-white p-3 text-xs flex items-center rounded-b"
@@ -29,7 +29,7 @@
           </div>
         </div>
       </ClientOnly>
-    </template> -->
+    </template>
   </n-card>
 </template>
 

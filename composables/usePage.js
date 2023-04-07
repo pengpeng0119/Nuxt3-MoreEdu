@@ -1,3 +1,4 @@
+// 根据分页器提供的数据交互,动态更改路由
 export async function usePage(initListApiCallback) {
     const route = useRoute()
     const page = ref(parseInt(route.params.page))

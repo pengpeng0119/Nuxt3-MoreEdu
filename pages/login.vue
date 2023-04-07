@@ -33,7 +33,9 @@
       <n-button type="primary" quaternary size="tiny" @click="changeType">{{
         type === 'login' ? '注册' : '登录'
       }}</n-button>
-      <n-button type="primary" quaternary size="tiny">忘记密码?</n-button>
+      <nuxt-link to="/forget">
+        <n-button type="primary" quaternary size="tiny">忘记密码?</n-button>
+      </nuxt-link>
     </div>
     <div>
       <n-button
@@ -58,7 +60,8 @@
 <script setup>
 import { NForm, NFormItem, NInput, NButton, createDiscreteApi } from 'naive-ui'
 definePageMeta({
-  layout: 'login'
+  layout: 'login',
+  middleware: ['only-visitor']
 })
 const route = useRoute()
 const formRef = ref(null)

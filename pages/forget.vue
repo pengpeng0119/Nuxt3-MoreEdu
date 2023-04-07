@@ -19,6 +19,26 @@
         <SendCode :phone="form.phone" />
       </n-input-group>
     </n-form-item>
+    <n-form-item :show-label="false" path="password">
+      <n-input
+        v-model:value="form.password"
+        placeholder="密码"
+        type="password"
+      />
+    </n-form-item>
+    <n-form-item :show-label="false" path="repassword">
+      <n-input
+        v-model:value="form.repassword"
+        placeholder="确认密码"
+        type="password"
+        :disabled="!form.password"
+      />
+    </n-form-item>
+    <div class="flex justify-between w-full mb-2">
+      <n-button quaternary type="primary" size="tiny" @click="$router.go(-1)">
+        登录
+      </n-button>
+    </div>
     <div>
       <n-button
         class="w-full"
@@ -26,7 +46,7 @@
         @click="onSubmit"
         :loading="loading"
       >
-        绑 定
+        重置密码
       </n-button>
     </div>
   </n-form>
@@ -36,17 +56,19 @@ import {
   NForm,
   NFormItem,
   NInput,
-  NInputGroup,
   NButton,
+  NInputGroup,
   createDiscreteApi
 } from 'naive-ui'
+const router = useRouter()
+useHead({ title: '忘记密码' })
 
-useHead({ title: '绑定手机号' })
-const route = useRoute()
 const formRef = ref(null)
 const form = reactive({
   phone: '',
-  code: ''
+  code: '',
+  password: '',
+  repassword: ''
 })
 
 const rules = {
@@ -61,6 +83,25 @@ const rules = {
       required: true,
       message: '验证码必填'
     }
+  ],
+  password: [
+    {
+      required: true,
+      message: '密码必填'
+    }
+  ],
+  repassword: [
+    {
+      required: true,
+      message: '确认密码必填'
+    },
+    {
+      validator(rule, value) {
+        return value === form.password
+      },
+      message: '两次密码输入不一致',
+      trigger: ['input', 'blur']
+    }
   ]
 }
 
@@ -70,25 +111,26 @@ const onSubmit = () => {
     if (errors) return
 
     loading.value = true
-    // console.log(route.query.from)
-    console.log(form)
-    let { data, error } = await useBindPhoneApi(form)
+
+    let { data, error } = await useForgetApi(form)
 
     loading.value = false
 
     if (error.value) return
 
     const { message } = createDiscreteApi(['message'])
-    message.success('绑定成功')
 
-    navigateTo(route.query.from || '/', { replace: true })
+    message.success('重置密码成功')
+
+    router.go(-1)
   })
 }
 
 useEnterEvent(() => onSubmit())
 
 definePageMeta({
-  title: '绑定手机号',
-  layout: 'login'
+  title: '忘记密码',
+  layout: 'login',
+  middleware: ['only-visitor']
 })
 </script>
