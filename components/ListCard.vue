@@ -15,6 +15,7 @@
 <script setup>
 import { NGrid, NGi, NCard } from 'naive-ui'
 import { NButton } from 'naive-ui'
+import { useGroupDataApi } from '../apis/index'
 const props = defineProps({
   title: String,
   data: Array,
@@ -31,7 +32,6 @@ if (props.type === 'group') {
     limit: 6
   })
   pdata.value = data.value?.rows || []
-  //   console.log(data)
 }
 </script>
 

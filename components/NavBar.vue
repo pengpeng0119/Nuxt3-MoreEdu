@@ -19,12 +19,15 @@
         </template>
       </n-button>
 
-      <!-- <n-button secondary strong>登录</n-button> -->
-      <n-dropdown :options="userOptions">
+      <n-button secondary strong @click="myLogin" v-if="!user">登录</n-button>
+      <n-dropdown :options="userOptions" v-else @select="handleSelect">
         <n-avatar
           round
           size="small"
-          src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
+          :src="
+            user.avatar ||
+            'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg'
+          "
         />
       </n-dropdown>
     </div>
@@ -34,8 +37,10 @@
 </template>
 
 <script setup>
-import { NButton, NIcon, NDropdown, NAvatar } from 'naive-ui'
+import { NButton, NIcon, NDropdown, NAvatar, createDiscreteApi } from 'naive-ui'
 import { Search } from '@vicons/ionicons5'
+const user = useUser()
+console.log(user.value)
 const isMenuItemActive = (item) => {
   if (item.match) {
     let i = item.match.findIndex((o) => {
@@ -165,6 +170,33 @@ function handelOpen(path) {
 const SearchBarRef = ref(null)
 const openSearch = () => {
   SearchBarRef.value.open()
+}
+function myLogin() {
+  navigateTo({
+    path: '/login'
+  })
+}
+const handleSelect = async (k) => {
+  console.log(k)
+  switch (k) {
+    case 'logout':
+      const { dialog } = createDiscreteApi(['dialog'])
+      dialog.warning({
+        content: '是否要退出登录？',
+        positiveText: '退出',
+        negativeText: '取消',
+        onPositiveClick: async () => {
+          await useLogout()
+        }
+      })
+      break
+    case 'center':
+      navigateTo({
+        path: '/user/history/1'
+      })
+      break
+  }
+  console.log('first')
 }
 </script>
 

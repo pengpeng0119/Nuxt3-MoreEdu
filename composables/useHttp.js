@@ -1,4 +1,5 @@
 // 公共配置
+import { createDiscreteApi } from "naive-ui"
 const fetchConfig = {
     baseURL: 'http://demonuxtapi.dishait.cn/pc',
     headers: {
@@ -12,13 +13,48 @@ function useGetFetchOptions(options = {}) {
     }
     options.initialCache = options.initialCache ?? false
     options.lazy = options.lazy ?? false
-    // 
+    // 用户登录,默认传token
+    const token = useCookie("token")
+    if (token.value) {
+        options.headers.token = token.value
+    }
+
     return options
 }
 // 
 export async function useHttp(key, url, options = {}) {
     options = useGetFetchOptions(options)
     options.key = key
+
+    //用于中间件
+    if (options.$) {
+        const data = ref(null)
+        const error = ref(null)
+        return await $fetch(url, options).then(res => {
+            data.value = res.data
+            return {
+                data,
+                error
+            }
+        }).catch(err => {
+            const msg = err?.data?.data
+            if (process.client) {
+                const { message } = createDiscreteApi(["message"])
+                message.error(msg || '服务端错误')
+                // message.error('服务端错误')
+            }
+            error.value = msg
+            return {
+                data,
+                error
+            }
+        })
+    }
+    // 
+
+
+
+
     let res = await useFetch(url, {
         ...options,
         // 相当于响应拦截器
@@ -26,6 +62,15 @@ export async function useHttp(key, url, options = {}) {
             return res.data
         }
     })
+    // 客服端的错误处理
+    if (process.client && res.error.value) {
+        const msg = res.error.value?.data?.data
+        if (!options.lazy) {
+            const { message } = createDiscreteApi(["message"])
+            message.error(msg || '服务端错误')
+            // message.error('服务端错误')
+        }
+    }
     return res
 }
 // GET

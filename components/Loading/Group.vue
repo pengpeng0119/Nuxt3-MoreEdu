@@ -1,7 +1,9 @@
 <template>
   <div>
     <template v-if="pending">
-      <loading-skeleton></loading-skeleton>
+      <slot name="loading">
+        <loading-skeleton></loading-skeleton>
+      </slot>
     </template>
     <template v-else-if="error">
       <n-result
