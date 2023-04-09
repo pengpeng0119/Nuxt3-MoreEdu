@@ -1,7 +1,9 @@
 <template>
   <n-card class="coupon" :class="{ 'coupon-disabled': btn != '立即使用' }">
     <h4>￥{{ item.price }}</h4>
-    <p>适用{{ o[item.type] }}：{{ item.title }}</p>
+    <p>
+      适用{{ o[item.type] }}：{{ item.title ? item.title : item.value.title }}
+    </p>
     <p class="!text-xs mt-3">
       有效期：{{ item.start_time }} ~ {{ item.end_time }}
     </p>
@@ -39,11 +41,13 @@ const btn = computed(() => {
 const open = () => {
   const { item } = props
   navigateTo(`/createorder?id=${item.goods_id}&type=${item.type}`)
+  const route = useRoute()
+  console.log(route)
 }
 </script>
 <style>
 .coupon {
-  @apply mb-5 bg-orange-500 !border-0;
+  @apply mb-5 !bg-orange-500 !border-0;
 }
 .coupon h4 {
   @apply text-2xl mb-2 font-bold text-white;

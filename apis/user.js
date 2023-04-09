@@ -79,3 +79,55 @@ export function useUserCouponApi(page) {
     })
 }
 
+
+// 我的收藏列表
+export function useMyFavaListApi(page) {
+    return useHttpGet("MyFavaList", `/user_fava?page=${page}`, {
+        lazy: true
+    })
+}
+
+// 取消收藏
+export function useUncollectApi(body) {
+    return useHttpPost("Uncollect", "/uncollect", {
+        body
+    })
+}
+
+
+// 收藏
+export function useCollectApi(body) {
+    return useHttpPost("collect", "/collect", {
+        body
+    })
+}
+
+
+
+// 修改资料
+export function useUpdateUserInfoApi(body) {
+    return useHttpPost("updateUserInfo", "/update_info", {
+        body
+    })
+}
+
+
+// 上传图片
+export function useUploadConfig() {
+    const token = useCookie("token")
+    return {
+        // action: fetchConfig.baseURL + "/upload",
+        action: 'http://demonuxtapi.dishait.cn/pc/upload',
+        headers: {
+            appid: 'bd9d01ecc75dbbaaefce',
+            token: token.value
+        }
+    }
+}
+
+// 修改密码
+export function useupdatePasswordApi(body) {
+    return useHttpPost("UpdatePasswordApi", "/update_password", {
+        body
+    })
+}

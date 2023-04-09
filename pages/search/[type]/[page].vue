@@ -109,6 +109,8 @@ const stop = watch(
 )
 // 关闭监听器
 onUnmounted(() => stop())
+
+console.log(route)
 </script>
 
 <style scoped></style>
