@@ -1,5 +1,28 @@
 <template>
   <LoadingGroup :pending="pending" :error="error">
+    <section
+      class="py-4"
+      v-if="
+        (data.isbuy && data.type != 'media' && type == 'course') ||
+        type == 'live'
+      "
+    >
+      <ClientOnly>
+        <template #fallback>
+          <LoadingSkeleton />
+        </template>
+        <PlayerAudio
+          v-if="data.type == 'audio'"
+          :title="data.title"
+          :url="data.content"
+          :cover="data.cover"
+        ></PlayerAudio>
+        <!-- 引入视频播放器 -->
+        <PlayerVideo v-else-if="data.type == 'video'" :url="data.content" />
+        <!-- 引入直播播放器 -->
+        <PlayerLive v-else-if="type == 'live'" :url="data.playUrl" />
+      </ClientOnly>
+    </section>
     <section class="detail-top">
       <n-image
         :src="data.cover"
@@ -19,11 +42,30 @@
             />
           </div>
           <p class="mt-2 text-xs text-gray-400">{{ subTitle }}</p>
-          <CouponModel></CouponModel>
-          <div>
-            <price :value="data.price" class="text-xl"></price>
-            <price :value="data.t_price" through class="ml-1 text-xs"></price>
-          </div>
+          <!-- 优惠卷 -->
+          <template v-if="!data.isbuy">
+            <DetailActiveBar
+              v-if="data.group || data.flashsale"
+              :data="data"
+            ></DetailActiveBar>
+            <template v-else>
+              <div>
+                <price :value="data.price" class="text-xl"></price>
+                <price
+                  :value="data.t_price"
+                  through
+                  class="ml-1 text-xs"
+                ></price>
+              </div>
+              <!-- 领取优惠卷 -->
+              <CouponModel v-if="type != 'live'"></CouponModel>
+              <LiveStatusBar
+                v-else
+                :start="data.start_time"
+                :end="data.end_time"
+              ></LiveStatusBar>
+            </template>
+          </template>
         </div>
         <!-- 按钮 -->
         <div class="mt-auto" v-if="!data.isbuy">
@@ -56,6 +98,10 @@
     <!-- 下边的内容 -->
     <n-grid :x-gap="20">
       <n-grid-item :span="18">
+        <DetailGroupworks
+          v-if="!data.isbuy && data.group"
+          :group_id="data.group.id"
+        />
         <section class="bg-white detail-bottom">
           <UiTab class="border-b">
             <UiTabItem
@@ -100,6 +146,7 @@ const query = useRequestQuery()
 const { data, error, pending, refresh } = await useReadDetailApi(type, query)
 const title = computed(() => (!pending.value ? data.value?.title : '详情页'))
 const { tabs, tab, changeTab } = useInitDetailTabs(type)
+useInitHead()
 useHead({
   title
 })
@@ -108,6 +155,15 @@ const o = {
   video: '视频',
   audio: '音频'
 }
+const btn = computed(() => {
+  if (data.value.group) {
+    return '立即拼团'
+  } else if (data.value.flashsale) {
+    return '立即秒杀'
+  }
+  return '立即学习'
+})
+
 const subTitle = computed(() => {
   let pre = ''
   if (type === 'course') {
@@ -115,8 +171,9 @@ const subTitle = computed(() => {
   }
   return `${pre}${data.value.sub_count}人学过`
 })
-const loading = ref(false)
+
 // 立即学习按钮
+const loading = ref(false)
 function buy() {
   useHasAuth(async () => {
     if (data.value.price == 0) {
@@ -131,6 +188,48 @@ function buy() {
       }
       return
     }
+    // 发起拼团
+    if (data.value.group) {
+      loading.value = true
+      useCreateOrderApi(
+        {
+          group_id: data.value.group.id
+        },
+        'group'
+      )
+        .then((res) => {
+          if (!res.error.value) {
+            navigateTo(`/pay?no=${res.data.value.no}`)
+          }
+        })
+        .finally(() => {
+          loading.value = false
+        })
+      return
+    }
+    // 付费学习
+    let ty = 'course'
+    let id = data.value.id
+    if (type == 'book') {
+      ty = 'book'
+    } else if (type == 'live') {
+      ty = 'live'
+    } else if (type == 'column') {
+      ty = 'column'
+    }
+
+    if (data.value.flashsale) {
+      ty = 'flashsale'
+      id = data.value.flashsale.id
+    }
+
+    navigateTo({
+      path: '/createrorder',
+      query: {
+        id,
+        type: ty
+      }
+    })
   })
 }
 
@@ -219,6 +318,40 @@ const freeId = computed(() => {
   }
   return fid
 })
+// 初始化head
+function useInitHead() {
+  if (type === 'course') {
+    useHead({
+      link: [
+        {
+          rel: 'stylesheet',
+          href: '/aplayer/APlayer.min.css'
+        }
+      ],
+      script: [
+        {
+          src: '/aplayer/APlayer.min.js'
+        },
+        {
+          src: '//unpkg.byted-static.com/xgplayer/2.31.2/browser/index.js'
+        }
+      ]
+    })
+  }
+
+  if (type === 'live') {
+    useHead({
+      script: [
+        {
+          src: '//unpkg.byted-static.com/xgplayer/2.31.2/browser/index.js'
+        },
+        {
+          src: '//unpkg.byted-static.com/xgplayer-flv/2.5.1/dist/index.min.js'
+        }
+      ]
+    })
+  }
+}
 </script>
 
 <style scoped>

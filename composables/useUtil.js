@@ -24,3 +24,19 @@ export function useEnterEvent(event) {
 
 
 }
+
+// 判断时间
+export function useTimeStatus(start, end) {
+    start = (new Date(start)).getTime()
+    start = (new Date(end)).getTime()
+    const now = Date.now()
+    let status = ''
+    if (start < now && now < end) {
+        status = 'ing'
+    } else if (start >= now) {
+        status = 'pending'
+    } else {
+        status = 'end'
+    }
+    return status
+}

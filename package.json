@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@css-render/vue3-ssr": "^0.15.11",
+    "aplayer": "^1.10.1",
     "naive-ui": "^2.34.2",
-    "nuxt-windicss": "^2.6.0"
+    "nuxt-windicss": "^2.6.0",
+    "qrcode": "^1.5.1"
   },
   "resolutions": {
     "vite-plugin-windicss": "1.8.8"

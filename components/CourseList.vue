@@ -38,7 +38,6 @@ const props = defineProps({
 })
 
 const open = () => {
-  console.log('---------------')
   let path = ''
   // 课程详情
   if (['course', 'media', 'audio', 'video'].includes(props.item.type)) {
