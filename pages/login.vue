@@ -110,7 +110,6 @@ const rules = computed(() => {
 })
 const loading = ref(false)
 function onSubmit() {
-  console.log(form)
   formRef.value?.validate(async (errors) => {
     if (errors) return
     loading.value = true

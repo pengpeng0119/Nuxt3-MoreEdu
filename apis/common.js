@@ -31,7 +31,6 @@ export function useListApi(type, query = {}) {
 
 // 查看课程/专栏详情
 export function useReadDetailApi(type, query = {}) {
-    console.log('hello')
     let q = useQueryToString(query)
     return useHttpGet("readDetail", `/${type}/read${q}`, {
         lazy: true

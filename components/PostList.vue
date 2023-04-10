@@ -37,7 +37,7 @@
         点赞 {{ item.support_count || '' }}
       </n-button>
 
-      <n-button secondary strong size="tiny" class="mr-3">
+      <n-button secondary strong size="tiny" class="mr-3" @click="open">
         <template #icon>
           <n-icon><ChatboxEllipsesOutline /></n-icon>
         </template>
@@ -52,6 +52,7 @@
         class="mr-3"
         @click="deleteItem"
         :loading="loading"
+        v-if="showDel"
       >
         删除
       </n-button>
@@ -63,7 +64,11 @@
 import { NTag, NImage, NButton, NIcon, createDiscreteApi } from 'naive-ui'
 import { ThumbsUpSharp, ChatboxEllipsesOutline } from '@vicons/ionicons5'
 const props = defineProps({
-  item: Object
+  item: Object,
+  showDel: {
+    type: Boolean,
+    default: true
+  }
 })
 // const supportLoading = ref(false)
 // // 点赞与取消点赞

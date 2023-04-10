@@ -44,7 +44,6 @@ const { data, error, query } = await useBookMenusApi(book_id)
 // 目录点击事件
 const activeId = ref(id)
 const open = (d) => {
-  //   console.log('first', d)
   activeId.value = d
   navigateTo({
     params: {

@@ -18,7 +18,6 @@ import { NTag, NImage, NButton, createDiscreteApi } from 'naive-ui'
 const props = defineProps({
   item: Object
 })
-console.log(props.item.goods)
 const open = () => {
   navigateTo(`/detail/${props.item.type}/${props.item.goods.id}`)
 }

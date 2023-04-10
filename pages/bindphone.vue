@@ -70,8 +70,6 @@ const onSubmit = () => {
     if (errors) return
 
     loading.value = true
-    // console.log(route.query.from)
-    console.log(form)
     let { data, error } = await useBindPhoneApi(form)
 
     loading.value = false
