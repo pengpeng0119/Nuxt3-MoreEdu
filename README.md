@@ -40,9 +40,10 @@ npm run preview
 ```
 
 Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
-<<<<<<< HEAD
-#简介
+<<<<<<< HEAD #简介
 一个多功能的在线编程学习网站,有考试,拼团秒杀,发布帖子论坛等功能.-----乡村中医
 =======
 我是章锦
->>>>>>> 8a98f381865f33a3827f2ba1507e85576a18c688
+
+> > > > > > > 8a98f381865f33a3827f2ba1507e85576a18c688
+> > > > > > > cz 到此一游
