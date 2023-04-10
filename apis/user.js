@@ -1,5 +1,4 @@
 export function userloginApi(body) {
-    console.log(body)
     return useHttpPost("login", "/login", {
         body
     })
@@ -15,7 +14,6 @@ export function useLogoutApi() {
 }
 // 注册
 export function useRegApi(body) {
-    console.log('请求前', body)
     return useHttpPost("reg", "/reg", {
         body
     })

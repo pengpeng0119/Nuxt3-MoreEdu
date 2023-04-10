@@ -42,7 +42,6 @@ const open = () => {
   const { item } = props
   navigateTo(`/createorder?id=${item.goods_id}&type=${item.type}`)
   const route = useRoute()
-  console.log(route)
 }
 </script>
 <style>

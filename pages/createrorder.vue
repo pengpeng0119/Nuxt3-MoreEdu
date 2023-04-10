@@ -86,7 +86,6 @@ const t = {
 }
 // 获取优惠卷
 const { data: couponData } = await useGetUseableUserCouponApi(id, type)
-console.log('111', couponData)
 // 选中优惠券
 const user_coupon_id = ref(0)
 const chooseCoupon = (item) => {

@@ -40,7 +40,6 @@
 import { NButton, NIcon, NDropdown, NAvatar, createDiscreteApi } from 'naive-ui'
 import { Search } from '@vicons/ionicons5'
 const user = useUser()
-console.log(user.value)
 const isMenuItemActive = (item) => {
   if (item.match) {
     let i = item.match.findIndex((o) => {
@@ -177,7 +176,6 @@ function myLogin() {
   })
 }
 const handleSelect = async (k) => {
-  console.log(k)
   switch (k) {
     case 'logout':
       const { dialog } = createDiscreteApi(['dialog'])
@@ -196,7 +194,6 @@ const handleSelect = async (k) => {
       })
       break
   }
-  console.log('first')
 }
 </script>
 
