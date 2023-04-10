@@ -11,7 +11,7 @@ Make sure to install the dependencies:
 yarn install
 
 # npm
-npm install
+安装:npm install
 
 # pnpm
 pnpm install --shamefully-hoist
@@ -22,7 +22,7 @@ pnpm install --shamefully-hoist
 Start the development server on http://localhost:3000
 
 ```bash
-npm run dev
+启动:npm run dev
 ```
 
 ## Production
@@ -40,3 +40,5 @@ npm run preview
 ```
 
 Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
+#简介
+一个多功能的在线编程学习网站,有考试,拼团秒杀,发布帖子论坛等功能.-----乡村中医
