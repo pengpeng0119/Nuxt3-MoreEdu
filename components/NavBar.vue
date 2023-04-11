@@ -163,9 +163,15 @@ const menu = [
     ]
   }
 ]
-function handelOpen(path) {
-  navigateTo(path)
-}
+// function handelOpen(path) {
+//   navigateTo(path)
+// }
+// function toNav(path) {
+//   console.log('秒发')
+//   navigateTo(path)
+// }
+const handelOpen = throttle(navigateTo, 1000)
+
 const SearchBarRef = ref(null)
 const openSearch = () => {
   SearchBarRef.value.open()

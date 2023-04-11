@@ -4,7 +4,7 @@
     <NuxtLayout>
       <!--全局不变  -->
       <NuxtPage></NuxtPage>
-      <!-- 组要业务页面 -->
+      <!-- 主要业务页面 -->
     </NuxtLayout>
   </n-config-provider>
 </template>

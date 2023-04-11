@@ -87,3 +87,47 @@ export function useHandleSupportPost() {
         supportLoading, handleSupport
     }
 }
+
+// 节流
+export function throttle(func, wait) {
+    // console.log('节流')
+    //之前的时间戳
+    let old = 0;
+    return function (path) {
+        //获取当前的时间戳
+        let now = new Date().valueOf();
+        if (now - old > wait) {
+            //立即执行
+            func(path);
+
+            old = now;
+        }
+    }
+}
+// 防抖
+export function debounce(func, wait, immediate = true) {
+    let timeout;
+    return function () {
+        //这里利用了闭包
+        clearTimeout(timeout);
+
+        if (immediate) {
+            //立即执行
+            let callNow = !timeout;
+            //如果是第一次点的话，timeout是没有值的
+
+            timeout = setTimeout(function () {
+                timeout = null;
+            }, wait);
+
+            if (callNow) {
+                func();
+            }
+        }
+        else {
+            //不会立即执行
+            timeout = setTimeout(func(), wait);
+        }
+    }
+}
+

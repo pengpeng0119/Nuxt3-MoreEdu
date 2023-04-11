@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 面包屑 -->
     <n-breadcrumb class="mb-5">
       <n-breadcrumb-item>
         <nuxt-link to="/">首页</nuxt-link>

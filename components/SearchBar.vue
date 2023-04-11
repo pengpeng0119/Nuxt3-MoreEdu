@@ -53,15 +53,17 @@ function handleSearch() {
   })
 }
 
-function handleEnterEvent(e) {
-  if (e.key === 'Enter' && keyword.value) {
-    handleSearch()
-  }
-}
-const addKeydownEvent = () =>
-  document.addEventListener('keydown', handleEnterEvent)
-const removeKeydownEvent = () =>
-  document.removeEventListener('keydown', handleEnterEvent)
+// function handleEnterEvent(e) {
+//   if (e.key === 'Enter' && keyword.value) {
+//     handleSearch()
+//   }
+// }
+// const addKeydownEvent = () =>
+//   document.addEventListener('keydown', handleEnterEvent)
+// const removeKeydownEvent = () =>
+//   document.removeEventListener('keydown', handleEnterEvent)
+// useEnterEvent(() => handleSearch())
+debounce(useEnterEvent(handleSearch), 1000)
 defineExpose({ open })
 </script>
 
